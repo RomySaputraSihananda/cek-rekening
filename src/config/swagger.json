@@ -1,0 +1,63 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Bank-Service",
+    "description": "Rest API to check the user's username with the account number",
+    "version": "v1.0.0"
+  },
+  "produces": ["application/json"],
+  "paths": {
+    "/api/v1/bank": {
+      "get": {
+        "x-swagger-router-controller": "bor",
+        "operationId": "getBank",
+        "tags": ["Bank-Controller"],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/v1/wallet": {
+      "get": {
+        "x-swagger-router-controller": "bar",
+        "operationId": "getWallet",
+        "tags": ["Bank-Controller"],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/v1/check": {
+      "post": {
+        "x-swagger-router-controller": "home",
+        "operationId": "index",
+        "tags": ["Bank-Controller"],
+        "description": "[Login 123](https://www.google.com)",
+        "parameters": [
+          {
+            "name": "test",
+            "in": "formData",
+            "type": "array",
+            "collectionFormat": "multi",
+            "items": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "profileId",
+            "in": "formData",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "type": "file",
+            "required": "true"
+          }
+        ],
+        "responses": {}
+      }
+    }
+  }
+}
