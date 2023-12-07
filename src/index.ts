@@ -3,7 +3,7 @@ import createError from "http-errors";
 
 import * as swaggerUi from "swagger-ui-express";
 import Search from "./utils/Search";
-import BuildResponse from "./utils/BodyResponse";
+import BodyResponse from "./utils/BodyResponse";
 
 const swaggerDocument = require("./config/swagger.json");
 
@@ -20,19 +20,30 @@ app.use(express.json());
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get(`${BASE_URL}/bank`, async (req: Request, res: Response) => {
-  res.json(await search.getBank());
+  res.json(
+    new BodyResponse("OK", 200, "all name of bank", await search.getBank())
+  );
 });
 
-app.get(`${BASE_URL}/wallet`, async (req: Request, res: Response) => {
+app.get(`${BASE_URL}/ewallet`, async (req: Request, res: Response) => {
   res.json(
-    new BuildResponse("OK", 200, "all bank name", await search.getWallet())
+    new BodyResponse("OK", 200, "all name Ewallet", await search.getWallet())
+  );
+});
+
+app.get(`${BASE_URL}/check`, async (req: Request, res: Response) => {
+  console.log(req.body);
+
+  res.json(
+    new BodyResponse("OK", 200, "all name Ewallet", await search.getWallet())
   );
 });
 
 app.get(`${BASE_URL}/test`, async (req: Request, res: Response) => {
-  res.json(
-    new BuildResponse("OK", 200, "all wallet name", await search.getWallet())
+  const requset = await fetch(
+    "https://api-rekening.lfourr.com/getBankAccount?bankCode=002&accountNumber=616901033536533"
   );
+  res.json(await requset.json());
 });
 
 app.use((req: Request, res: Response, next: Function) => {

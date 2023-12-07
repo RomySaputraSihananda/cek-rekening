@@ -2,29 +2,47 @@
   "swagger": "2.0",
   "info": {
     "title": "Bank-Service",
-    "description": "Rest API to check the user's username with the account number",
-    "version": "v1.0.0"
+    "description": "Rest API to check the username with the account number",
+    "version": "v1.0.0",
+    "license": {
+      "name": "Licensed Under MIT",
+      "url": "https://spdx.org/licenses/MIT.html"
+    }
   },
   "produces": ["application/json"],
+  "consumes": ["application/json"],
   "paths": {
     "/api/v1/bank": {
       "get": {
-        "x-swagger-router-controller": "bor",
+        "x-swagger-router-controller": "bank",
         "operationId": "getBank",
         "tags": ["Bank-Controller"],
-        "description": "",
-        "parameters": [],
-        "responses": {}
+        "description": "api for get bankcode and bankname",
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "examples": {
+              "application/json": { "foo": 1 }
+            }
+          }
+        }
       }
     },
-    "/api/v1/wallet": {
+    "/api/v1/ewallet": {
       "get": {
-        "x-swagger-router-controller": "bar",
+        "x-swagger-router-controller": "ewallet",
         "operationId": "getWallet",
         "tags": ["Bank-Controller"],
-        "description": "",
+        "description": "api for get walletcode and walletname",
         "parameters": [],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "examples": {
+              "application/json": "{ foo: 1 }"
+            }
+          }
+        }
       }
     },
     "/api/v1/check": {
@@ -32,30 +50,21 @@
         "x-swagger-router-controller": "home",
         "operationId": "index",
         "tags": ["Bank-Controller"],
-        "description": "[Login 123](https://www.google.com)",
-        "parameters": [
-          {
-            "name": "test",
-            "in": "formData",
-            "type": "array",
-            "collectionFormat": "multi",
-            "items": {
-              "type": "integer"
+        "description": "API to check the username",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "examples": {
+                "foo": 1
+              }
             }
-          },
-          {
-            "name": "profileId",
-            "in": "formData",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "file",
-            "in": "formData",
-            "type": "file",
-            "required": "true"
           }
-        ],
+        },
         "responses": {}
       }
     }
