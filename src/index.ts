@@ -24,11 +24,15 @@ app.get(`${BASE_URL}/bank`, async (req: Request, res: Response) => {
 });
 
 app.get(`${BASE_URL}/wallet`, async (req: Request, res: Response) => {
-  res.json(new BuildResponse(200, "OK", await search.getWallet()));
+  res.json(
+    new BuildResponse("OK", 200, "all bank name", await search.getWallet())
+  );
 });
 
 app.get(`${BASE_URL}/test`, async (req: Request, res: Response) => {
-  res.json(new BuildResponse(200, "OK", await search.getWallet()));
+  res.json(
+    new BuildResponse("OK", 200, "all wallet name", await search.getWallet())
+  );
 });
 
 app.use((req: Request, res: Response, next: Function) => {
