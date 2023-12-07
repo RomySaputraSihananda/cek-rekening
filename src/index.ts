@@ -3,12 +3,13 @@ import createError from "http-errors";
 
 import * as swaggerUi from "swagger-ui-express";
 import Search from "./utils/Search";
+import BuildResponse from "./utils/BodyResponse";
 
 const swaggerDocument = require("./config/swagger.json");
 
 const app = express();
 
-const BASE_URL = "/api/v1/";
+const BASE_URL = "/api/v1";
 const PORT = 4444;
 
 const search = new Search();
@@ -18,16 +19,16 @@ const search = new Search();
 app.use(express.json());
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.get(`${BASE_URL}bank`, async (req: Request, res: Response) => {
+app.get(`${BASE_URL}/bank`, async (req: Request, res: Response) => {
   res.json(await search.getBank());
 });
 
-app.get(`${BASE_URL}wallet`, async (req: Request, res: Response) => {
-  res.json(await search.getWallet());
+app.get(`${BASE_URL}/wallet`, async (req: Request, res: Response) => {
+  res.json(new BuildResponse(200, "OK", await search.getWallet()));
 });
 
-app.get(`${BASE_URL}periksa`, async (req: Request, res: Response) => {
-  res.json({ ok: "ok" });
+app.get(`${BASE_URL}/test`, async (req: Request, res: Response) => {
+  res.json(new BuildResponse(200, "OK", await search.getWallet()));
 });
 
 app.use((req: Request, res: Response, next: Function) => {
