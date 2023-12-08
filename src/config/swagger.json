@@ -17,7 +17,7 @@
         "x-swagger-router-controller": "bank",
         "operationId": "getBank",
         "tags": ["Bank-Controller"],
-        "description": "api for get bankcode and bankname",
+        "description": "API for get bankcode and bankname",
         "responses": {
           "200": {
             "description": "200 response",
@@ -43,7 +43,7 @@
         "x-swagger-router-controller": "ewallet",
         "operationId": "getWallet",
         "tags": ["Bank-Controller"],
-        "description": "api for get walletcode and walletname",
+        "description": "API for get walletcode and walletname",
         "responses": {
           "200": {
             "description": "200 response",
@@ -69,7 +69,7 @@
         "x-swagger-router-controller": "check",
         "operationId": "index",
         "tags": ["Bank-Controller"],
-        "description": "API to check the username",
+        "description": "API to check the username of bank",
         "produces": ["application/json"],
         "consumes": ["application/json"],
         "parameters": [

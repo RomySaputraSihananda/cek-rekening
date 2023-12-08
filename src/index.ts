@@ -76,7 +76,7 @@ app.post(
 );
 
 app.use((req: Request, res: Response, next: Function) => {
-  res.render("index");
+  res.status(404).sendFile("./public/404.html", { root: __dirname });
 });
 
 app.listen(PORT, () => console.log(`[server] : http://localhost:${PORT}`));
