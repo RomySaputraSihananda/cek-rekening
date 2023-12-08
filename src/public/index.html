@@ -1,1 +1,33 @@
-<h1>Hello world</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      const redirect = () => {
+        window.location.replace(window.location + "docs");
+      };
+    </script>
+  </head>
+  <body>
+    <div
+      class="w-screen h-screen bg-[#252525] text-[#eaeaea] grid place-items-center"
+    >
+      <div class="flex flex-col items-center">
+        <h1
+          class="text-[80px] md:text-[120px] font-mono drop-shadow-[0_10px_35px_rgba(255,255,255,0.5)] hover:drop-shadow-[0_10px_35px_rgba(255,255,255,0.9)] trantition duration-300"
+        >
+          Welcome
+        </h1>
+        <button
+          onclick="redirect()"
+          class="px-2 py-2 border-4 border-white w-fit rounded-lg font-mono drop-shadow-[0_10px_35px_rgba(255,255,255,0.5)] hover:drop-shadow-[0_10px_35px_rgba(255,255,255,0.9)] trantition duration-300"
+        >
+          Go to Docs
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
