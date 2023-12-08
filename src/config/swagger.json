@@ -22,7 +22,17 @@
           "200": {
             "description": "200 response",
             "examples": {
-              "application/json": { "foo": 1 }
+              "application/json": {
+                "status": "string",
+                "code": 200,
+                "message": "string",
+                "data": [
+                  {
+                    "kodeBank": "string",
+                    "namaBank": "string"
+                  }
+                ]
+              }
             }
           }
         }
@@ -34,12 +44,21 @@
         "operationId": "getWallet",
         "tags": ["Bank-Controller"],
         "description": "api for get walletcode and walletname",
-        "parameters": [],
         "responses": {
           "200": {
             "description": "200 response",
             "examples": {
-              "application/json": "{ foo: 1 }"
+              "application/json": {
+                "status": "string",
+                "code": 200,
+                "message": "string",
+                "data": [
+                  {
+                    "kodeBank": "string",
+                    "namaBank": "string"
+                  }
+                ]
+              }
             }
           }
         }
@@ -47,7 +66,7 @@
     },
     "/api/v1/check": {
       "post": {
-        "x-swagger-router-controller": "home",
+        "x-swagger-router-controller": "check",
         "operationId": "index",
         "tags": ["Bank-Controller"],
         "description": "API to check the username",
@@ -57,7 +76,7 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Object codeBank dan nomor Rekening",
+            "description": "Object of accountname and accountnumber",
             "required": true,
             "schema": {
               "type": "object",
@@ -68,7 +87,24 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "examples": {
+              "application/json": {
+                "status": "string",
+                "code": 200,
+                "message": "string",
+                "data": {
+                  "bankcode": "string",
+                  "bankname": "string",
+                  "accountnumber": "string",
+                  "accountname": "string"
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

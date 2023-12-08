@@ -36,17 +36,25 @@ app.post(
   `${BASE_URL}/check`,
   [body("bankCode").isString(), body("accountNumber").isString()],
   async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.send(errors.array());
+    const { accountNumber } = req.body;
 
-    res.json(
-      new BodyResponse(
-        "OK",
-        200,
-        "data from database",
-        await search.checkData(req)
-      )
-    );
+    const errors = validationResult(req);
+    if (!errors.isEmpty() || !/\d{12,16}/g.exec(accountNumber)) {
+      return res
+        .status(400)
+        .json(new BodyResponse("Bad Request", 400, "", null));
+    }
+
+    res
+      .status(200)
+      .json(
+        new BodyResponse(
+          "OK",
+          200,
+          "data from database",
+          await search.checkData(req)
+        )
+      );
   }
 );
 
