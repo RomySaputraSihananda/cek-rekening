@@ -1,5 +1,5 @@
-import createError from "http-errors";
-import express, { Request, Response } from "express";
+import path from "path";
+import express, { Request, Response, Express } from "express";
 import { body, validationResult } from "express-validator";
 import * as swaggerUi from "swagger-ui-express";
 
@@ -8,65 +8,75 @@ import BodyResponse from "./utils/BodyResponse";
 
 const swaggerDocument = require("./config/swagger.json");
 
-const app = express();
+const app: Express = express();
 
-const BASE_URL = "/api/v1";
-const PORT = 4444;
+const BASE_URL: string = "/api/v1";
+const PORT: number = 4444;
 
-const search = new Search();
-
-// {"type":"1","bank":"1","norek":"7634876236748723","captcha":"03AFcWeA4C-JDnDju7XB6Mk_GpLSIA2aSv4wk-FoKka9Bo87NheDXAc4X4tcd9KEC9pjSyxJxPGhooYPNSdb7d3isxR-RlrE3JQbDgRAbDCQyNYiQCwD1vw_00J-fmBOfGjut4KqP63nQT2xMdYerFCLYzajFYTKsS2Rdme19aZzU5cfBMwZDQ-6AIXBwzfIydqDh8WlYGdzZR2EyCZYr-YuoLJoioehnG9wrJmy5pfkbuiorAKx07CijPTFyPUtI4WCCpY4iw1IlqkH5JU7mjYcjuK8K_p2gFWaLqDaePxXMWVlFeVCysmLaqDiVt40qS_sfpOMnBUQd6GfNHcU7gd4TsoHFMPLdkZKj2Qt1eliOUVxZ-WXVDF6WOcGUswj-71YrhD_FsNJmfpicPV-ddB_ku3xf6n2z9aMSzR42WFtixMNt1Qm2WNRsD4xi7JV_9XqPjr1b5qukh7MBL6TW7mXWFIIuXyrQMEh-sY9IefFX6Z_QAJWzh4ZMpETQqhOXGJDGcpGSfjW_837b0c-8igyWaNIEUM4xMXKGvZVATi741iC-leZKSmkTsszHmSDufRdNrsDl1n_Ly"}
+const search: Search = new Search();
 
 app.use(express.json());
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.get(`${BASE_URL}/bank`, async (req: Request, res: Response) => {
-  res.json(
-    new BodyResponse("OK", 200, "all name of bank", await search.getBank())
-  );
+app.get("/", (req: Request, res: Response) => {
+  res.sendFile("./public/index.html", { root: __dirname });
 });
 
-app.get(`${BASE_URL}/ewallet`, async (req: Request, res: Response) => {
-  res.json(
-    new BodyResponse("OK", 200, "all name Ewallet", await search.getWallet())
-  );
-});
+app.get(
+  `${BASE_URL}/bank`,
+  async (req: Request, res: Response): Promise<Response> => {
+    return res
+      .status(200)
+      .json(
+        new BodyResponse("OK", 200, "all name of bank", await search.getBank())
+      );
+  }
+);
 
-app.post(
-  `${BASE_URL}/check`,
-  [body("bankCode").isString(), body("accountNumber").isString()],
-  async (req: Request, res: Response) => {
-    const { accountNumber } = req.body;
-
-    const errors = validationResult(req);
-    if (!errors.isEmpty() || !/\d{12,16}/g.exec(accountNumber)) {
-      return res
-        .status(400)
-        .json(new BodyResponse("Bad Request", 400, "", null));
-    }
-
-    res
+app.get(
+  `${BASE_URL}/ewallet`,
+  async (req: Request, res: Response): Promise<Response> => {
+    return res
       .status(200)
       .json(
         new BodyResponse(
           "OK",
           200,
-          "data from database",
-          await search.checkData(req)
+          "all name Ewallet",
+          await search.getWallet()
         )
       );
   }
 );
 
-app.get(`${BASE_URL}/test`, async (req: Request, res: Response) => {
-  const requset = await fetch(
-    "https://api-rekening.lfourr.com/getBankAccount?bankCode=002&accountNumber=616901033536533"
-  );
-  res.json(await requset.json());
-});
+app.post(
+  `${BASE_URL}/check`,
+  [body("bankCode").isString(), body("accountNumber").isString()],
+  async (req: Request, res: Response): Promise<Response> => {
+    const { accountNumber } = req.body;
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty() || !/\d{10,16}/g.exec(accountNumber)) {
+      return res
+        .status(400)
+        .json(new BodyResponse("Bad Request", 400, "", null));
+    }
+
+    const data = await search.checkData(req);
+
+    if (!data)
+      return res
+        .status(404)
+        .json(new BodyResponse("Not Found", 404, "data not found", data));
+
+    return res
+      .status(200)
+      .json(new BodyResponse("OK", 200, "data from database", data));
+  }
+);
 
 app.use((req: Request, res: Response, next: Function) => {
-  next(createError(404));
+  res.render("index");
 });
 
 app.listen(PORT, () => console.log(`[server] : http://localhost:${PORT}`));

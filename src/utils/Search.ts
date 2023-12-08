@@ -10,9 +10,10 @@ class Search {
     const { bankCode, accountNumber } = req.body;
 
     const data = await this.getData(
-      `getBankAccount?bankCode=${bankCode}&accountNumber=${accountNumber}`
+      `${
+        /\d{3}/g.exec(bankCode) ? "getBankAccount" : "getEwalletAccount"
+      }?bankCode=${bankCode}&accountNumber=${accountNumber}`
     );
-
     return data;
   };
 
@@ -28,7 +29,10 @@ class Search {
 
   private getData = async (endPoint: string) => {
     const req: Response = await fetch(this.url + endPoint, { method: "GET" });
-    const res: any = await await req.json();
+    const res: any = await req.json();
+
+    if (!res.status) return null;
+
     return res.data;
   };
 }
