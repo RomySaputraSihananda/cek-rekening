@@ -6,6 +6,33 @@
 
 Rest API to check the user's username with the account number
 
+## Requirements
+
+- **node >= 20.8.1**,
+- **express >= 4.18.2**,
+- **express-validator >= ^7.0.1**
+- **swagger-ui-express >= ^5.0.0**
+
+## Installation
+
+```sh
+# Clonig Repository
+git clone https://github.com/romysaputrasihananda/cek-rekening
+
+# Change Directory
+cd cek-rekening
+
+# Install Requirement
+npm i
+```
+
+## Running
+
+```sh
+# start the server
+npm start
+```
+
 ## EndPoints
 
 The following is a list of available Request URIs:
