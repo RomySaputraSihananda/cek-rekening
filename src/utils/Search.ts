@@ -1,13 +1,18 @@
+import { Request } from "express";
+
 class Search {
   // private url = "https://cekrekening.id/api/v1/bank";
   private url = "https://api-rekening.lfourr.com/";
   // private url = "https://api-rekening.lfourr.com/listewallet";
   // {"callingCode":"+62","msisdn":"888888888"}
   // https://aduannomor.id/master/check/report
-  public checkData = async (bankCode: string, accountNumber: string) => {
+  public checkData = async (req: Request) => {
+    const { bankCode, accountNumber } = req.body;
+
     const data = await this.getData(
-      `listbank?bankCode=${bankCode}&accountNumber=${accountNumber}`
+      `getBankAccount?bankCode=${bankCode}&accountNumber=${accountNumber}`
     );
+
     return data;
   };
 

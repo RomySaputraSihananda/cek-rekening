@@ -1,7 +1,8 @@
-import express, { Request, Response } from "express";
 import createError from "http-errors";
-
+import express, { Request, Response } from "express";
+import { body, validationResult } from "express-validator";
 import * as swaggerUi from "swagger-ui-express";
+
 import Search from "./utils/Search";
 import BodyResponse from "./utils/BodyResponse";
 
@@ -31,13 +32,23 @@ app.get(`${BASE_URL}/ewallet`, async (req: Request, res: Response) => {
   );
 });
 
-app.get(`${BASE_URL}/check`, async (req: Request, res: Response) => {
-  console.log(req.body);
+app.post(
+  `${BASE_URL}/check`,
+  [body("bankCode").isString(), body("accountNumber").isString()],
+  async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.send(errors.array());
 
-  res.json(
-    new BodyResponse("OK", 200, "all name Ewallet", await search.getWallet())
-  );
-});
+    res.json(
+      new BodyResponse(
+        "OK",
+        200,
+        "data from database",
+        await search.checkData(req)
+      )
+    );
+  }
+);
 
 app.get(`${BASE_URL}/test`, async (req: Request, res: Response) => {
   const requset = await fetch(

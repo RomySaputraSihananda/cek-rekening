@@ -53,18 +53,21 @@
         "description": "API to check the username",
         "produces": ["application/json"],
         "consumes": ["application/json"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object"
-              },
-              "examples": {
-                "foo": 1
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Object codeBank dan nomor Rekening",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "example": {
+                "bankCode": "002",
+                "accountNumber": "616**********33"
               }
             }
           }
-        },
+        ],
         "responses": {}
       }
     }
