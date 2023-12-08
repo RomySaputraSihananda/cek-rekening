@@ -6,7 +6,7 @@
 
 Rest API to check the user's username with the account number
 
-# EndPoints
+## EndPoints
 
 The following is a list of available Request URIs:
 
@@ -23,3 +23,7 @@ The following is a list of available Request URIs:
     | [/api/v1/bank](http://localhost:4444/api/v1/bank)       |  GET   | API for get bankcode and bankname     |
     | [/api/v1/ewallet](http://localhost:4444/api/v1/ewallet) |  GET   | API for get walletcode and walletname |
     | [/api/v1/check](http://localhost:4444/api/v1/check)     |  POST  | API to check the username of bank     |
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
